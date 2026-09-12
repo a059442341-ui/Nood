@@ -1,12 +1,8 @@
-from flask import Flask
-
-app = Flask(__name__)
-
-HTML = """
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مرحبا بك</title>
 <style>
   body {
@@ -50,28 +46,24 @@ HTML = """
   <div id="timer">10</div>
 
   <script>
-    // 1) تقسيم النص إلى حروف
     const text = "مرحبا بك";
     const title = document.getElementById('title');
     const spans = [...text].map(ch => {
       const s = document.createElement('span');
-      s.textContent = (ch === ' ') ? '\\u00A0' : ch;
+      s.textContent = (ch === ' ') ? '\u00A0' : ch;
       title.appendChild(s);
       return s;
     });
 
-    // 2) الحركة الدائرية المتسلسلة + التكرار
     function play() {
       spans.forEach(s => s.classList.remove('show'));
       spans.forEach((s, i) => {
         setTimeout(() => s.classList.add('show'), i * 350);
       });
-      // بعد ظهور آخر حرف ننتظر ثانيتين ثم نعيد
       setTimeout(play, spans.length * 350 + 2000);
     }
     play();
 
-    // 3) الساعة التنازلية
     let t = 10;
     const timer = document.getElementById('timer');
     setInterval(() => {
@@ -81,11 +73,3 @@ HTML = """
   </script>
 </body>
 </html>
-"""
-
-@app.route('/')
-def home():
-    return HTML
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
