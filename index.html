@@ -1,75 +1,185 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مرحبا بك</title>
-<style>
-  body {
-    margin: 0;
-    height: 100vh;
-    background: #0b3d91;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Tahoma', 'Arial', sans-serif;
-    color: #ffffff;
-  }
-  h1 {
-    font-size: 90px;
-    font-weight: 900;
-    margin: 0;
-    display: flex;
-    gap: 8px;
-  }
-  h1 span {
-    display: inline-block;
-    opacity: 0;
-    transform: rotate(-180deg) scale(0.2);
-    transition: all 0.5s ease;
-  }
-  h1 span.show {
-    opacity: 1;
-    transform: rotate(0deg) scale(1);
-  }
-  #timer {
-    font-size: 90px;
-    font-weight: 900;
-    margin-top: 20px;
-    color: #ffffff;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nood - تصميم مواقع احترافية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e40af;
+            --accent: #3b82f6;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+        /* شريط التنقل */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(15, 23, 42, 0.9);
+            position: sticky; top: 0; z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .logo { font-size: 26px; font-weight: 900; color: var(--text-main); }
+        .logo span { color: var(--accent); }
+        .nav-links a { color: var(--text-muted); text-decoration: none; margin-left: 20px; font-weight: 700; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* القسم الرئيسي (Hero) */
+        .hero {
+            padding: 120px 5%;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.3) 0%, rgba(15, 23, 42, 1) 100%);
+        }
+        .hero h1 { font-size: 3rem; font-weight: 900; margin-bottom: 20px; line-height: 1.3; }
+        .hero h1 span { color: var(--accent); }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 40px; }
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 15px 45px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.2s, background 0.2s;
+            border: none; cursor: pointer;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+        .btn:hover { background: var(--primary); transform: translateY(-3px); }
+
+        /* الأقسام العامة */
+        .section { padding: 80px 5%; }
+        .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 50px; font-weight: 900; }
+        .section-title span { color: var(--accent); }
+
+        /* قسم الخدمات */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .feature-card {
+            background: var(--bg-card);
+            padding: 45px 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s;
+        }
+        .feature-card:hover { transform: translateY(-8px); border-color: var(--accent); }
+        .feature-icon { font-size: 3rem; margin-bottom: 20px; }
+        .feature-card h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--text-main); }
+        .feature-card p { color: var(--text-muted); }
+
+        /* قسم الأعمال */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .portfolio-item {
+            height: 250px;
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-weight: 900; font-size: 1.3rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        .portfolio-item:hover { transform: scale(1.03); }
+        .portfolio-item:nth-child(1) { background: linear-gradient(45deg, #1e3a8a, #3b82f6); }
+        .portfolio-item:nth-child(2) { background: linear-gradient(45deg, #0f172a, #475569); }
+        .portfolio-item:nth-child(3) { background: linear-gradient(45deg, #1e40af, #0ea5e9); }
+        .portfolio-item span { background: rgba(0,0,0,0.4); padding: 10px 25px; border-radius: 10px; backdrop-filter: blur(5px); }
+
+        /* التذييل */
+        footer {
+            text-align: center;
+            padding: 50px 5%;
+            background: #020617;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        footer p { margin-bottom: 10px; }
+
+        /* للجوال */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .nav-links { display: none; }
+            .section { padding: 50px 5%; }
+        }
+    </style>
 </head>
 <body>
-  <h1 id="title"></h1>
-  <div id="timer">10</div>
+    <!-- شريط التنقل -->
+    <nav>
+        <div class="logo">Nood<span>.</span></div>
+        <div class="nav-links">
+            <a href="#">الرئيسية</a>
+            <a href="#services">خدماتنا</a>
+            <a href="#portfolio">أعمالنا</a>
+            <a href="#">تواصل معنا</a>
+        </div>
+    </nav>
 
-  <script>
-    const text = "مرحبا بك";
-    const title = document.getElementById('title');
-    const spans = [...text].map(ch => {
-      const s = document.createElement('span');
-      s.textContent = (ch === ' ') ? '\u00A0' : ch;
-      title.appendChild(s);
-      return s;
-    });
+    <!-- القسم الرئيسي -->
+    <section class="hero">
+        <h1>النظرة الاحترافية <br><span>للدعاية والإعلان</span></h1>
+        <p>تصميم مواقع ويب للشركات، حلول مخصصة واحترافية تحول فكرتك إلى واقع رقمي مبهر.</p>
+        <a href="#portfolio" class="btn">اكتشف أعمالنا</a>
+    </section>
 
-    function play() {
-      spans.forEach(s => s.classList.remove('show'));
-      spans.forEach((s, i) => {
-        setTimeout(() => s.classList.add('show'), i * 350);
-      });
-      setTimeout(play, spans.length * 350 + 2000);
-    }
-    play();
+    <!-- قسم الخدمات -->
+    <section class="section" id="services">
+        <h2 class="section-title">لماذا تختار <span>Nood</span>؟</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <h3>تصميم متجاوب</h3>
+                <p>مواقع تعمل بشكل مثالي على جميع الأجهزة، من الهواتف الذكية إلى الشاشات الكبيرة.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>سرعة فائقة</h3>
+                <p>أداء عالي واستجابة سريعة لضمان تجربة مستخدم سلسة وممتعة لزوار موقعك.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>تصميم عصري</h3>
+                <p>واجهات مستخدم جذابة وعصرية تعكس هوية علامتك التجارية وتميزك عن المنافسين.</p>
+            </div>
+        </div>
+    </section>
 
-    let t = 10;
-    const timer = document.getElementById('timer');
-    setInterval(() => {
-      t = t > 0 ? t - 1 : 10;
-      timer.textContent = t;
-    }, 1000);
-  </script>
+    <!-- قسم الأعمال -->
+    <section class="section" id="portfolio">
+        <h2 class="section-title">نماذج من <span>أعمالنا</span></h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item"><span>Landing Page</span></div>
+            <div class="portfolio-item"><span>Corporate Website</span></div>
+            <div class="portfolio-item"><span>E-Commerce</span></div>
+        </div>
+    </section>
+
+    <!-- التذييل -->
+    <footer>
+        <p>© 2024 Nood. جميع الحقوق محفوظة.</p>
+        <p>صُنع بحب في السعودية 🇸🇦</p>
+    </footer>
 </body>
 </html>
